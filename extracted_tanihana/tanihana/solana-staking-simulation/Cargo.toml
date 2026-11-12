@@ -1,0 +1,24 @@
+[package]
+name = "solana-staking-simulation"
+version = "0.1.0"
+edition = "2021"
+description = "Solana Proof-of-Stake staking simulation program for testing and benchmarking"
+authors = ["Solana Staking Protect Team"]
+repository = "https://github.com/solana-staking-protect/solana-staking-simulation"
+license = "MIT"
+keywords = ["solana", "staking", "simulation", "benchmark", "proof-of-stake"]
+categories = ["cryptography", "blockchain", "finance", "development-tools::build-utils"]
+
+[dependencies]
+solana-program = "1.18"
+serde = { version = "1.0", features = ["derive"] }
+thiserror = "1.0"
+rust_decimal = { version = "1.33", features = ["math"] }
+
+[dev-dependencies]
+solana-program-test = "1.18"
+solana-sdk = "1.18"
+
+[lib]
+name = "solana_staking_simulation"
+crate-type = ["cdylib", "lib"]
