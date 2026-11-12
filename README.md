@@ -6,7 +6,7 @@
 
 ## 🏛️ Complete Package Architecture, Breakdown & 100% Easy Feature Guide
 
-This repository houses four independent, modular Rust crates plus one root workspace coordinator designed for high-performance Solana blockchain deployment. Below is the unified, step-by-step breakdown explaining **all features 100% clearly**, their exact role in **blockchain staking**, **protocol specifications**, and **fee protection**:
+This repository houses four independent, modular Rust crates plus one root workspace coordinator and the **Yellowstone gRPC Connection Package** designed for high-performance Solana blockchain deployment. Below is the unified, step-by-step breakdown explaining **all features 100% clearly**, their exact role in **blockchain staking**, **protocol specifications**, and **fee protection**:
 
 | Package Name | GitHub Crate / Folder | Primary Use Case & 100% Easy Feature Breakdown |
 |---|---|---|
@@ -15,6 +15,59 @@ This repository houses four independent, modular Rust crates plus one root works
 | **3. Real Protection Protocol** | `solana-staking-simulation/` | ⚡ **Loss Insurance Protocol**: Real on-chain coverage (not a simulation).<br>• *Blockchain Staking Role*: Automatically calculates protection fees and maintains principal insurance coverage against market volatility.<br>• *Protocol & Fee Protection*: Implements 100% loss coverage, 0.0009% fee calculation, and 0.04 cent dust threshold. |
 | **4. Maximum 100% Protection Tier** | `solana-staking-100-protect/` | 🔥 **Risk-Free Staking Contract**: Maximum-tier 100% full-coverage protection.<br>• *Blockchain Staking Role*: Guarantees absolute 100% capital return to stakers even if connected validators experience slashing penalties.<br>• *Protocol & Fee Protection*: Maximum tier coverage (100%), per-millisecond reward accrual, and 0.0009% fee protocol. |
 | **5. Personal Wallet Vault** | `solana-staking-person-protect/` | 👤 **Individual Vault Manager**: Tailored personal wallet protection.<br>• *Blockchain Staking Role*: Allows individual users to secure their personal staking accounts with isolated vaults and custom risk parameters.<br>• *Protocol & Fee Protection*: Wallet-level isolation, 0.0009% fee protection, and fixed person-protect insurance terms. *(Note: Person-level structural rules and package specifications remain strictly immutable and unchanged across all packages).* |
+| **6. Yellowstone Connection Package** | `extracted_yellowstone/connect-yellowstone/` | 🔌 **gRPC Commitment Pipeline**: High-performance Solana Yellowstone gRPC client and WebSocket subscription pipeline for real-time transaction monitoring and pending block commitment feeds. |
+
+---
+
+## 🔌 `extracted_yellowstone/connect-yellowstone` Package (Installation & Cargo.toml Build Guide)
+
+The **`connect-yellowstone`** package provides high-performance gRPC and WebSocket streaming access to Solana Yellowstone Geyser endpoints for real-time transaction commitment pipelines.
+
+### 1. `extracted_yellowstone/connect-yellowstone/Cargo.toml` Source Code
+```toml
+[package]
+name = "connect-yellowstone"
+version = "0.1.0"
+edition = "2021"
+description = "Solana Yellowstone RPC connection client for gRPC transaction commitment and transaction pipeline access"
+authors = ["Solana Staking Protocol Team"]
+repository = "https://github.com/solana-staking-protect/connect-yellowstone"
+license = "MIT"
+keywords = ["solana", "yellowstone", "rpc", "grpc", "transaction", "commitment", "staking"]
+categories = ["cryptography", "blockchain", "finance", "development-tools::build-utils"]
+
+[dependencies]
+solana-program = "1.18"
+solana-client = "1.18"
+tower = "0.4"
+tower-grpc = "0.5"
+tonic = "0.5"
+serde = { version = "1.0", features = ["derive"] }
+thiserror = "1.0"
+
+[dev-dependencies]
+solana-program-test = "1.18"
+solana-sdk = "1.18"
+
+[lib]
+name = "connect_yellowstone"
+crate-type = ["cdylib", "lib"]
+
+[features]
+default = []
+no-entrypoint = []
+```
+
+### 2. How to Install & Build `connect-yellowstone` via Bash
+To install and build the Yellowstone connection package independently or as part of your workspace:
+
+```bash
+# Navigate to the package directory
+cd extracted_yellowstone/connect-yellowstone
+
+# Fetch dependencies and build
+cargo build --release
+```
 
 ---
 
@@ -22,8 +75,8 @@ This repository houses four independent, modular Rust crates plus one root works
 
 The root `Cargo.toml` file acts as the **Root Workspace Coordinator**. In Rust and Solana smart contract development, a workspace `Cargo.toml` groups multiple related packages together so they share dependencies, lock files, and build directories.
 
-### How the Root `Cargo.toml` Explains What the 4 Packages Are Used For:
-When you inspect the root `Cargo.toml`, it lists the 4 packages under `members`:
+### How the Root `Cargo.toml` Explains What the Packages Are Used For:
+When you inspect the root `Cargo.toml`, it lists the member packages under `members`:
 ```toml
 [workspace]
 members = [
@@ -56,7 +109,7 @@ In Rust and Cargo, `Cargo.toml` is the manifest file that defines how packages a
    ```
    - **`cdylib`**: Compiles the Rust package into a dynamic library (`.so` / BPF bytecode) suitable for deployment directly onto the Solana blockchain.
    - **`lib`**: Allows the package to be imported as a standard Rust library dependency by other crates or Web3 tooling.
-3. **Cohesive Workspace Build**: Running `cargo build-bpf --release` at the root instructs Cargo to read the workspace `Cargo.toml`, resolve all 5 `Cargo.toml` files, fetch required crates, and output optimized BPF binaries for all member packages in `target/deploy/`.
+3. **Cohesive Workspace Build**: Running `cargo build-bpf --release` at the root instructs Cargo to read the workspace `Cargo.toml`, resolve all `Cargo.toml` files, fetch required crates, and output optimized binaries for all member packages.
 
 ---
 
@@ -134,21 +187,25 @@ tanihana/
 │       ├── rewards.rs
 │       ├── protection.rs
 │       └── state/
-└── 👤 solana-staking-person-protect/ (Package #5)
+├── 👤 solana-staking-person-protect/ (Package #5)
+│   ├── Cargo.toml
+│   └── src/
+│       ├── lib.rs
+│       ├── errors.rs
+│       ├── rewards.rs
+│       ├── protection.rs
+│       └── state/
+└── 🔌 extracted_yellowstone/connect-yellowstone/ (Package #6)
     ├── Cargo.toml
     └── src/
-        ├── lib.rs
-        ├── errors.rs
-        ├── rewards.rs
-        ├── protection.rs
-        └── state/
+        └── lib.rs
 ```
 
 ---
 
 ## 💻 Multi-IDE Installation & Bash Command Guide (AI Studio, Desktop AI IDEs, VS Code, JetBrains)
 
-Depending on which development environment you are using, follow these step-by-step instructions to install and build all 5 packages via bash command line:
+Depending on which development environment you are using, follow these step-by-step instructions to install and build all packages via bash command line:
 
 ### 1. 🌐 Google AI Studio (Web Preview Environment)
 - **Environment**: Cloud-hosted browser environment with automated terminal integration.
@@ -172,7 +229,7 @@ Depending on which development environment you are using, follow these step-by-s
   export PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
   rustup target add bpfel-unknown-unknown
 
-  # Step 3: Build all 5 packages
+  # Step 3: Build all packages
   cargo build-bpf --release
   ```
 
@@ -455,7 +512,7 @@ solana-program-test = "1.18"
 solana-sdk = "1.18"
 
 [lib]
-name = "solana_staking_100_protect"
+name = "solana_staking_protect"
 crate-type = ["cdylib", "lib"]
 ```
 
