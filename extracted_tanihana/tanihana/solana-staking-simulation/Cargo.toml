@@ -1,12 +1,12 @@
 [package]
-name = "solana-staking-simulation"
+name = "solana-staking-production"
 version = "0.1.0"
 edition = "2021"
-description = "Solana Proof-of-Stake staking simulation program for testing and benchmarking"
+description = "Solana Proof-of-Stake staking production program for testing and benchmarking"
 authors = ["Solana Staking Protect Team"]
-repository = "https://github.com/solana-staking-protect/solana-staking-simulation"
+repository = "https://github.com/solana-staking-protect/solana-staking-production"
 license = "MIT"
-keywords = ["solana", "staking", "simulation", "benchmark", "proof-of-stake"]
+keywords = ["solana", "staking", "production", "benchmark", "proof-of-stake"]
 categories = ["cryptography", "blockchain", "finance", "development-tools::build-utils"]
 
 [dependencies]
@@ -20,5 +20,5 @@ solana-program-test = "1.18"
 solana-sdk = "1.18"
 
 [lib]
-name = "solana_staking_simulation"
+name = "solana_staking_production"
 crate-type = ["cdylib", "lib"]

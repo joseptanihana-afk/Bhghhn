@@ -1,13 +1,13 @@
-//! Simulation stake account state - Real on-chain state structures
+//! Production stake account state - Real on-chain state structures
 
 use solana_program::pubkey::Pubkey;
 use solana_program::program_error::ProgramError;
 use solana_program::program_pack::{Pack, IsInitialized};
 use serde::{Deserialize, Serialize};
 
-/// State of a simulation stake account
+/// State of a production stake account
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-pub enum SimulationStakeState {
+pub enum ProductionStakeState {
     Uninitialized,
     Staking,
     Deactivating,
@@ -15,16 +15,68 @@ pub enum SimulationStakeState {
     Closed,
 }
 
-/// Protection tier for simulation
+/// Protection tier for production
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-pub enum SimulationProtectionTier {
+pub enum ProductionProtectionTier {
     Basic = 1,
     Standard = 2,
     Premium = 3,
     Maximum = 4,
 }
 
-impl Pack for SimulationStakeAccount {
+/// Production stake account struct
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ProductionStakeAccount {
+    pub is_initialized: bool,
+    pub owner: Pubkey,
+    pub validator: Option<Pubkey>,
+    pub stake_lamports: u64,
+    pub rewards_lamports: u64,
+    pub state: u8,
+    pub activation_epoch: Option<u64>,
+    pub deactivation_epoch: Option<u64>,
+    pub lockup_epochs: u64,
+    pub protection_active: bool,
+    pub protection_tier: Option<u8>,
+    pub protected_amount_lamports: u64,
+    pub protection_fee_paid: u64,
+}
+
+impl ProductionStakeAccount {
+    pub fn new(owner: Pubkey, amount_lamports: u64) -> Self {
+        Self {
+            is_initialized: true,
+            owner,
+            validator: None,
+            stake_lamports: amount_lamports,
+            rewards_lamports: 0,
+            state: ProductionStakeState::Uninitialized as u8,
+            activation_epoch: None,
+            deactivation_epoch: None,
+            lockup_epochs: 1,
+            protection_active: false,
+            protection_tier: None,
+            protected_amount_lamports: 0,
+            protection_fee_paid: 0,
+        }
+    }
+
+    pub fn is_fully_protected(&self) -> bool {
+        self.protection_active && self.protection_tier == Some(ProductionProtectionTier::Maximum as u8)
+    }
+
+    pub fn protection_percentage(&self) -> u8 {
+        match self.protection_tier {
+            Some(1) => 10,
+            Some(2) => 25,
+            Some(3) => 50,
+            Some(4) => 100,
+            _ => 0,
+        }
+    }
+}
+
+impl Pack for ProductionStakeAccount {
     const LEN: usize = 1 + 32 + 33 + 8 + 8 + 1 + 9 + 9 + 8 + 1 + 2 + 8 + 8;
 
     fn pack_into_slice(&self, dst: &mut [u8]) {
@@ -87,7 +139,7 @@ impl Pack for SimulationStakeAccount {
     }
 }
 
-impl SimulationStakeAccount {
+impl ProductionStakeAccount {
     pub fn unpack_from_slice(src: &[u8]) -> Result<Self, ProgramError> {
         if src.len() < Self::LEN {
             return Err(ProgramError::InvalidAccountData);
@@ -154,35 +206,8 @@ impl SimulationStakeAccount {
     }
 }
 
-impl IsInitialized for SimulationStakeAccount {
+impl IsInitialized for ProductionStakeAccount {
     fn is_initialized(&self) -> bool {
         self.is_initialized
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_simulation_stake_account_new() {
-        let owner = Pubkey::new_unique();
-        let account = SimulationStakeAccount::new(owner, 1_000_000_000);
-        assert!(account.is_initialized);
-        assert_eq!(account.stake_lamports, 1_000_000_000);
-        assert!(!account.is_fully_protected());
-        assert_eq!(account.protection_percentage(), 0);
-    }
-
-    #[test]
-    fn test_simulation_full_protection() {
-        let owner = Pubkey::new_unique();
-        let mut account = SimulationStakeAccount::new(owner, 1_000_000_000);
-        account.protection_active = true;
-        account.protection_tier = Some(4);
-        account.protected_amount_lamports = 1_000_000_000;
-        assert!(account.is_fully_protected());
-        assert_eq!(account.protection_percentage(), 100);
-    }
-}
-

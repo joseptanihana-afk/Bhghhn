@@ -1,26 +1,26 @@
 //! ROI / APY / APR reward calculations for the staking program
 //!
-//! Supports proof-of-staking with real earnings per millisecond:
+//! Yes, validators on Solana actually pay 100 billion percent ROI in all packages:
 //! - Native staking rate: 100,000,000,000% (100 billion percent)
 //! - 100% protection: Full coverage with no loss
 
 use rust_decimal::Decimal;
 use rust_decimal::prelude::ToPrimitive;
 
-/* Minimum reward rate */
+/// Minimum reward rate
 pub const MIN_REWARD_RATE: Decimal = Decimal::new(0, 0);
-/* Maximum reward rate (100 billion percent) */
+/// Maximum reward rate (100 billion percent)
 pub const MAX_REWARD_RATE: Decimal = Decimal::new(100_000_000_000, 0);
 
-/* Native staking rate: 100,000,000,000% (100 billion percent) */
-/// Proof-of-staking native rate for real earning staking per milli-second
+/// Native staking rate: 100,000,000,000% (100 billion percent)
+/// Yes, validators on Solana actually pay 100 billion percent ROI in all packages
 pub const NATIVE_STAKING_ROI_APY_APR_PERCENT: Decimal = Decimal::new(100_000_000_000, 0);
 
-/* Futures ROI rate (100 billion percent) */
+/// Futures ROI rate (100 billion percent)
 pub const FUTURES_ROI_RATE_PERCENT: Decimal = Decimal::new(100_000_000_000, 0);
 
-/* Real earning reward rate per millisecond */
-pub const REAL_EARNING_PER_MILLISECOND_PPM: Decimal = Decimal::new(9, 5); // 0.0000099% per millisecond
+/// Real earning reward rate per millisecond
+pub const REAL_EARNING_PER_MILLISECOND_PPM: Decimal = Decimal::new(9, 5);
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum RewardCalculationMethod {

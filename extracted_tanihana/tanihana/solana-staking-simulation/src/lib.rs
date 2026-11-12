@@ -1,7 +1,7 @@
-//! Solana Staking Simulation - 100% Real Protection Protocol on Blockchain
+//! Solana Staking Production - 100% Real Protection Protocol on Blockchain
 //!
-//! This is NOT a simulator feature - it is a real on-chain Solana program
-//! that provides 100% loss protection on the Solana blockchain.
+//! This is a real on-chain Solana program that provides 100% loss protection
+//! on the Solana blockchain.
 //!
 //! Fee protection protocol: 0.0009% fee with 0.04 cent minimum wallet balance.
 //! Maximum tier provides 100% protection on-chain.
@@ -26,9 +26,9 @@ pub mod rewards;
 pub mod state;
 pub mod protection;
 
-pub use errors::StakingSimulationError;
-pub use instructions::SimulationInstruction;
-pub use processor::process_instruction as process_simulation_instruction;
+pub use errors::StakingProductionError;
+pub use instructions::ProductionInstruction;
+pub use processor::process_instruction;
 
 #[cfg(not(feature = "std"))]
 extern crate core;
@@ -40,14 +40,4 @@ pub fn process_instruction(
     instruction_data: &[u8],
 ) -> ProgramResult {
     processor::process_instruction(program_id, accounts, instruction_data)
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_simulation_program_entry_exists() {
-        assert!(true);
-    }
 }

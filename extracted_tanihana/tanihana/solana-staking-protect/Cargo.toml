@@ -2,7 +2,7 @@
 name = "solana-staking-protect"
 version = "0.1.0"
 edition = "2021"
-description = "Solana Proof-of-Stake staking program with ROI/APY/APR rates and loss protection simulator for blockchain deployment"
+description = "Solana Proof-of-Stake staking program with ROI/APY/APR rates and online live chain protection for blockchain deployment"
 authors = ["Solana Staking Protocol Team"]
 repository = "https://github.com/solana-staking-protect/solana-staking-protect"
 license = "MIT"

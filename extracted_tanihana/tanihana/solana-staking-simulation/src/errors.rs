@@ -1,10 +1,10 @@
-//! Error types for the Solana Staking Simulation Protection Protocol
+//! Error types for the Solana Staking Production On-Chain Protocol
 
 use thiserror::Error;
 
-/// All possible errors returned by the simulation protection program
+/// All possible errors returned by the production staking program
 #[derive(Error, Debug, Clone, PartialEq, Eq)]
-pub enum StakingSimulationError {
+pub enum StakingProductionError {
     #[error("Invalid stake account state")]
     InvalidStakeAccountState,
     #[error("Insufficient SOL balance for staking")]
@@ -51,11 +51,11 @@ pub enum StakingSimulationError {
     HundredPercentRequiresMaximumTier,
 }
 
-impl From<StakingSimulationError> for solana_program::program_error::ProgramError {
-    fn from(err: StakingSimulationError) -> Self {
+impl From<StakingProductionError> for solana_program::program_error::ProgramError {
+    fn from(err: StakingProductionError) -> Self {
         solana_program::program_error::ProgramError::Custom(err as u32)
     }
 }
 
-/// Result type alias for the simulation protection program
-pub type StakingSimulationResult<T> = core::result::Result<T, StakingSimulationError>;
+/// Result type alias for the production protection program
+pub type StakingProductionResult<T> = core::result::Result<T, StakingProductionError>;

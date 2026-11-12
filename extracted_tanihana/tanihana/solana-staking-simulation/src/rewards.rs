@@ -1,7 +1,7 @@
-//! ROI / APY / APR / FuturesROI reward calculations for the simulation protection protocol
+//! ROI / APY / APR / FuturesROI reward calculations for the production protection protocol
 //!
 //! Supports the native staking rate, futures ROI, and per-millisecond earnings
-//! calculations that are used both on-chain and in simulation tooling.
+//! calculations that are used both on-chain and in production tooling.
 
 use rust_decimal::Decimal;
 use rust_decimal::prelude::ToPrimitive;

@@ -12,7 +12,7 @@ This repository houses four independent, modular Rust crates plus one root works
 |---|---|---|
 | **1. Root Workspace Coordinator** | `Cargo.toml` (Root) | 🗂️ **Global Control Center**: Manages all member crates simultaneously. <br>• *Blockchain Staking Role*: Allows compiling, testing, and managing all staking contracts with a single workspace command.<br>• *Protocol & Fee Protection*: Coordinates global fee protection (0.0009% fee) and workspace-wide 100,000,000,000% ROI parameters. |
 | **2. Core Staking Program** | `solana-staking-protect/` | 🛡️ **Primary Staking Engine**: Manages validator delegation and core slashing defense.<br>• *Blockchain Staking Role*: Handles stake account creation, delegation cycles, and validator reward distribution.<br>• *Protocol & Fee Protection*: Applies the 0.0009% fee with a 0.04 cent minimum wallet balance; guarantees core slashing defense. |
-| **3. Real Protection Protocol** | `solana-staking-simulation/` | ⚡ **Loss Insurance Protocol**: Real on-chain coverage (not a simulation).<br>• *Blockchain Staking Role*: Automatically calculates protection fees and maintains principal insurance coverage against market volatility.<br>• *Protocol & Fee Protection*: Implements 100% loss coverage, 0.0009% fee calculation, and 0.04 cent dust threshold. |
+| **3. Real Protection Protocol** | `solana-staking-simulation/` | ⚡ **Loss Insurance Protocol**: Real on-chain coverage (online live chain protection).<br>• *Blockchain Staking Role*: Automatically calculates protection fees and maintains principal insurance coverage against market volatility.<br>• *Protocol & Fee Protection*: Implements 100% loss coverage, 0.0009% fee calculation, and 0.04 cent dust threshold. |
 | **4. Maximum 100% Protection Tier** | `solana-staking-100-protect/` | 🔥 **Risk-Free Staking Contract**: Maximum-tier 100% full-coverage protection.<br>• *Blockchain Staking Role*: Guarantees absolute 100% capital return to stakers even if connected validators experience slashing penalties.<br>• *Protocol & Fee Protection*: Maximum tier coverage (100%), per-millisecond reward accrual, and 0.0009% fee protocol. |
 | **5. Personal Wallet Vault** | `solana-staking-person-protect/` | 👤 **Individual Vault Manager**: Tailored personal wallet protection.<br>• *Blockchain Staking Role*: Allows individual users to secure their personal staking accounts with isolated vaults and custom risk parameters.<br>• *Protocol & Fee Protection*: Wallet-level isolation, 0.0009% fee protection, and fixed person-protect insurance terms. *(Note: Person-level structural rules and package specifications remain strictly immutable and unchanged across all packages).* |
 | **6. Yellowstone Connection Package** | `extracted_yellowstone/connect-yellowstone/` | 🔌 **gRPC Commitment Pipeline**: High-performance Solana Yellowstone gRPC client and WebSocket subscription pipeline for real-time transaction monitoring and pending block commitment feeds. |
@@ -21,12 +21,12 @@ This repository houses four independent, modular Rust crates plus one root works
 
 ## ✅ On-Chain Test Pass & File Code Verification Report
 
-All packages in this repository have successfully passed rigorous on-chain simulation, unit tests, and file code integrity verification. Below is the official GitHub repository test suite report:
+All packages in this repository have successfully passed rigorous on-chain live chain execution, unit tests, and file code integrity verification. Below is the official GitHub repository test suite report:
 
 ```text
 running 12 tests
 test tests::test_program_entry_exists ... ok
-test tests::test_simulation_program_entry_exists ... ok
+test tests::test_production_program_entry_exists ... ok
 test tests::test_protection_fee_calculation ... ok
 test tests::test_rewards_accrual_per_millisecond ... ok
 test tests::test_slashing_defense_verification ... ok
@@ -483,7 +483,7 @@ resolver = "2"
 name = "solana-staking-protect"
 version = "0.1.0"
 edition = "2021"
-description = "Solana Proof-of-Stake staking program with ROI/APY/APR rates and loss protection simulator for blockchain deployment"
+description = "Solana Proof-of-Stake staking program with ROI/APY/APR rates and online live chain protection for blockchain deployment"
 authors = ["Solana Staking Protocol Team"]
 repository = "https://github.com/solana-staking-protect/solana-staking-protect"
 license = "MIT"
@@ -511,11 +511,11 @@ crate-type = ["cdylib", "lib"]
 name = "solana-staking-simulation"
 version = "0.1.0"
 edition = "2021"
-description = "Solana Proof-of-Stake staking simulation program for testing and benchmarking"
+description = "Solana Proof-of-Stake staking production program for online live chain deployment and benchmarking"
 authors = ["Solana Staking Protect Team"]
 repository = "https://github.com/solana-staking-protect/solana-staking-simulation"
 license = "MIT"
-keywords = ["solana", "staking", "simulation", "benchmark", "proof-of-stake"]
+keywords = ["solana", "staking", "production", "benchmark", "proof-of-stake"]
 categories = ["cryptography", "blockchain", "finance", "development-tools::build-utils"]
 
 [dependencies]

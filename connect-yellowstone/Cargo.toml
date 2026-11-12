@@ -1,0 +1,31 @@
+[package]
+name = "connect-yellowstone"
+version = "0.1.0"
+edition = "2021"
+description = "Solana Yellowstone RPC connection client for gRPC transaction commitment and transaction pipeline access"
+authors = ["Solana Staking Protocol Team"]
+repository = "https://github.com/solana-staking-protect/connect-yellowstone"
+license = "MIT"
+keywords = ["solana", "yellowstone", "rpc", "grpc", "transaction", "commitment", "staking"]
+categories = ["cryptography", "blockchain", "finance", "development-tools::build-utils"]
+
+[dependencies]
+solana-program = "1.18"
+solana-client = "1.18"
+tower = "0.4"
+tower-grpc = "0.5"
+tonic = "0.5"
+serde = { version = "1.0", features = ["derive"] }
+thiserror = "1.0"
+
+[dev-dependencies]
+solana-program-test = "1.18"
+solana-sdk = "1.18"
+
+[lib]
+name = "connect_yellowstone"
+crate-type = ["cdylib", "lib"]
+
+[features]
+default = []
+no-entrypoint = []
