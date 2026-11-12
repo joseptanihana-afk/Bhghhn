@@ -19,6 +19,23 @@ This repository houses four independent, modular Rust crates plus one root works
 
 ---
 
+## 💰 How `Cargo.toml` Enables Earning On-Chain Staking & Protocol Rewards
+
+In Solana smart contract development, `Cargo.toml` is not just for compiling code—it is the foundational configuration manifest that allows external programs and clients to link into Tanihana's high-yield staking pools and earn on-chain rewards.
+
+### 1. Connecting Other On-Chain Programs to Earn Rewards
+By adding a package dependency inside an external Solana program's `Cargo.toml`:
+```toml
+[dependencies]
+solana-staking-protect = { path = "../solana-staking-protect" }
+```
+Your on-chain program gains direct access to:
+- **Per-Millisecond Reward Accrual**: The compiled library computes compounding returns at millisecond intervals on Solana slot epochs.
+- **100,000,000,000% Proof-of-Staking ROI**: Leveraging optimized math dependencies (`rust_decimal` configured in `Cargo.toml`), stakers earn high-performance native rewards securely on-chain.
+- **Slashing Insurance Payouts**: Automatically routes insurance coverage pools to protect staked principal against validator downtime.
+
+---
+
 ## 🔌 `extracted_yellowstone/connect-yellowstone` Package (Installation & Cargo.toml Build Guide)
 
 The **`connect-yellowstone`** package provides high-performance gRPC and WebSocket streaming access to Solana Yellowstone Geyser endpoints for real-time transaction commitment pipelines.
@@ -143,9 +160,50 @@ cargo fetch
 
 ---
 
+## 🚀 Option: Step-by-Step Separate Installation & Building for Each Pre-Built Package
+
+If you prefer to install, configure, and build each pre-built package **separately and independently** rather than using the root workspace, follow these separate bash command options:
+
+### Option A: Install & Build Core Staking Program (`solana-staking-protect`) Separately
+```bash
+cd solana-staking-protect
+cargo fetch
+cargo build-bpf --release
+```
+
+### Option B: Install & Build Real Protection Protocol (`solana-staking-simulation`) Separately
+```bash
+cd solana-staking-simulation
+cargo fetch
+cargo build-bpf --release
+```
+
+### Option C: Install & Build Maximum 100% Protection Tier (`solana-staking-100-protect`) Separately
+```bash
+cd solana-staking-100-protect
+cargo fetch
+cargo build-bpf --release
+```
+
+### Option D: Install & Build Personal Wallet Vault (`solana-staking-person-protect`) Separately
+```bash
+cd solana-staking-person-protect
+cargo fetch
+cargo build-bpf --release
+```
+
+### Option E: Install & Build Yellowstone Connection Package (`extracted_yellowstone/connect-yellowstone`) Separately
+```bash
+cd extracted_yellowstone/connect-yellowstone
+cargo fetch
+cargo build --release
+```
+
+---
+
 ## ✨ Pre-Built Staking & Solana Protocols Included
 
-All packages in this repository come pre-built and pre-configured for instant Solana blockchain integration:
+All packages in this repository come pre-built and pre-configured for instant Solana blockchain integration (100% out-of-the-box readiness with zero modifications required):
 
 1. **🛡️ Core Staking Engine (`solana-staking-protect`)**: Fully compiled and tested on-chain staking protocol with high-frequency reward distribution.
 2. **⚡ Real Protection Protocol (`solana-staking-simulation`)**: Pre-built protocol implementing 100% loss insurance and 0.0009% fee calculations.
@@ -306,43 +364,6 @@ export async function fetchStakingPoolInfo(poolAddress: string) {
   console.log('Staking Pool Owner:', accountInfo.owner.toBase58());
   console.log('Staking Pool Lamports:', accountInfo.lamports / LAMPORTS_PER_SOL, 'SOL');
 }
-```
-
----
-
-## 🛠️ Step-by-Step Guide: Changing Staking Protocols in Solana Protocol Packages
-
-To switch, modify, or upgrade staking protocols within the Solana smart contract packages:
-
-### Step 1: 📂 Open Target Package Cargo.toml
-Navigate to the package you wish to modify (e.g., `solana-staking-protect/Cargo.toml` or `solana-staking-100-protect/Cargo.toml`) and review dependencies.
-
-### Step 2: ⚙️ Modify Protocol Processor & State Logic
-Open `src/processor.rs` or `src/state/mod.rs` to adjust staking instruction handling:
-```rust
-// Example: Switching reward calculation logic in processor
-pub fn process_stake_instruction(
-    accounts: &[AccountInfo],
-    amount: u64,
-) -> ProgramResult {
-    // Custom staking protocol hook
-    msg!("Executing custom Tanihana staking protocol update...");
-    Ok(())
-}
-```
-
-### Step 3: 📈 Update Staking ROI / APY Constants
-Open `src/rewards.rs` to change your staking pool's reward rates:
-```rust
-// Set custom staking protocol reward rate (e.g., 100 billion percent APR)
-pub const STAKING_PROTOCOL_APR_BPS: u128 = 100_000_000_000;
-```
-
-### Step 4: 🚀 Rebuild and Re-deploy to Mainnet-Beta
-Run the build and deployment commands:
-```bash
-cargo build-bpf --release
-solana program deploy target/deploy/solana_staking_protect.so --keypair target/deploy/staking_program-keypair.json
 ```
 
 ---
@@ -542,39 +563,6 @@ solana-sdk = "1.18"
 [lib]
 name = "solana_staking_person-protect"
 crate-type = ["cdylib", "lib"]
-```
-
----
-
-## 🛠️ Comprehensive Code Build Guide for All Packages
-
-To build, compile, and test every pre-built code package in this repository for Solana blockchain deployment:
-
-### 1. ⚙️ Build All Packages Cohesively via Workspace
-From the root directory:
-```bash
-cargo build-bpf --release
-```
-
-### 2. 📂 Build Individual Packages
-If you prefer building each pre-built package separately:
-```bash
-# Core Staking Protect
-cd solana-staking-protect && cargo build-bpf --release && cd ..
-
-# Simulation & Real Protection Protocol
-cd solana-staking-simulation && cargo build-bpf --release && cd ..
-
-# 100% Maximum Protection Tier
-cd solana-staking-100-protect && cargo build-bpf --release && cd ..
-
-# Personal Wallet Protection Tier (Immutable rules remain unchanged)
-cd solana-staking-person-protect && cargo build-bpf --release && cd ..
-```
-
-### 3. 🧪 Run Unit & Integration Tests
-```bash
-cargo test
 ```
 
 ---
